@@ -91,11 +91,7 @@ export default function Product() {
             let finalData = brandfilter.filter((v) => v != event.target.value)
             setBrandfilter(finalData)
         }
-        // if(!categoryfilter.includes(event.target.value))
-        // {
-
-        // }
-        // console.log(event.target.value)
+    
     }
 
 
@@ -373,6 +369,16 @@ function ProductItem({ pdata }) {
         toast.success("your itmes is Saved")
 
     }
+
+    let removeCart=()=>
+    {
+        if(confirm("Are You Sure"))
+        {
+            let removaFromCart=cart.filter((items)=>items.id!=id)
+            setCart(removaFromCart)
+            toast.error("your itmes is removed")
+        }
+    }
     // console.log(cart, id)
     let checkProductinCart = cart.filter((items) =>items.id==id)
     // console.log(checkProductinCart, id)
@@ -396,7 +402,7 @@ function ProductItem({ pdata }) {
                     {
                         checkProductinCart.length == 1
                             ?
-                            <button  className='mt-1 p-2 text-white bg-red-700 rounded-xl cursor-pointer'>
+                            <button onClick={removeCart} className='mt-1 p-2 text-white bg-red-700 rounded-xl cursor-pointer'>
                                 Remove Cart
                             </button>
                             :
