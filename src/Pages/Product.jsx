@@ -379,7 +379,7 @@ function ProductItem({ pdata }) {
 
     // Remove cart ke liye code
     let removeCart = () => {
-        if (confirm("Are Your Sure")) {
+        if (confirm("Are Your Sure Deletion")) {
             let removeData = cart.filter((items) => items.id != id)
             setCart(removeData)
             toast.error("your itmes is removed")
