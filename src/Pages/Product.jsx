@@ -374,8 +374,21 @@ function ProductItem({ pdata }) {
 
     }
     // console.log(cart, id)
-    let checkProductinCart = cart.filter((items) =>items.id==id)
+    let checkProductinCart = cart.filter((items) => items.id == id)
     // console.log(checkProductinCart, id)
+
+
+    // Remove cart ke liye code
+
+    let removeCart = () => {
+        if (confirm("Are Your Sure")) {
+            let removeData = cart.filter((items) => items.id != id)
+            setCart(removeData)
+            toast.dark("Your Itmes is Deleted")
+        }
+
+    }
+
 
     return (
         <div className='overflow-y-scroll'>
@@ -396,7 +409,7 @@ function ProductItem({ pdata }) {
                     {
                         checkProductinCart.length == 1
                             ?
-                            <button  className='mt-1 p-2 text-white bg-red-700 rounded-xl cursor-pointer'>
+                            <button onClick={removeCart} className='mt-1 p-2 text-white bg-red-700 rounded-xl cursor-pointer'>
                                 Remove Cart
                             </button>
                             :
