@@ -380,8 +380,21 @@ function ProductItem({ pdata }) {
         }
     }
     // console.log(cart, id)
-    let checkProductinCart = cart.filter((items) =>items.id==id)
+    let checkProductinCart = cart.filter((items) => items.id == id)
     // console.log(checkProductinCart, id)
+
+
+    // Remove cart ke liye code
+
+    let removeCart = () => {
+        if (confirm("Are Your Sure")) {
+            let removeData = cart.filter((items) => items.id != id)
+            setCart(removeData)
+            toast.dark("Your Itmes is Deleted")
+        }
+
+    }
+
 
     return (
         <div className='overflow-y-scroll'>
