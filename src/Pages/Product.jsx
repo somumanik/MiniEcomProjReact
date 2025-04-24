@@ -91,11 +91,7 @@ export default function Product() {
             let finalData = brandfilter.filter((v) => v != event.target.value)
             setBrandfilter(finalData)
         }
-        // if(!categoryfilter.includes(event.target.value))
-        // {
-
-        // }
-        // console.log(event.target.value)
+    
     }
 
 
@@ -373,15 +369,17 @@ function ProductItem({ pdata }) {
         toast.success("your itmes is Saved")
 
     }
+
+ 
     // console.log(cart, id)
     let checkProductinCart = cart.filter((items) => items.id == id)
     // console.log(checkProductinCart, id)
 
 
-    // Remove cart ke liye code
 
+    // Remove cart ke liye code
     let removeCart = () => {
-        if (confirm("Are Your Sure")) {
+        if (confirm("Are Your Sure Deletion")) {
             let removeData = cart.filter((items) => items.id != id)
             setCart(removeData)
             toast.error("Your Itmes is Deleted")
