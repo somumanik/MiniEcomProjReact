@@ -4,7 +4,7 @@ import { counterContext } from '../Common/MaiContext'
 import { toast, ToastContainer } from 'react-toastify'
 
 export default function Cart() {
-  let {cart} = useContext(counterContext)
+  let { cart } = useContext(counterContext)
   // let { id } = cart
 
   // let removeCarts = () => {
@@ -39,23 +39,39 @@ export default function Cart() {
                   cart.map((item, index) => (
                     // <tr className="border-t">
                     //   <td className="px-4 py-4">
-                    //     <img src={item.image} alt="Product" className="w-14 h-14 rounded object-cover" />
+                    //     <img src={image} alt="Product" className="w-14 h-14 rounded object-cover" />
                     //   </td>
-                    //   <td className="px-4 py-4">{item.name}</td>
-                    //   <td className="px-4 py-4">{item.price}</td>
+                    //   <td className="px-4 py-4">{name}</td>
+                    //   <td className="px-4 py-4">${price}</td>
                     //   <td className="px-4 py-4">
                     //     <div className="flex items-center gap-2">
-                    //       <button className="w-7 h-7 bg-gray-200 rounded cursor-pointer">-</button>
-                    //       <span>{item.qty}</span>
-                    //       <button className="w-7 h-7 bg-gray-200 rounded cursor-pointer">+</button>
+                    //       <button
+                    //         onClick={decreaseQty}
+                    //         className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+                    //       >
+                    //         -
+                    //       </button>
+                    //       <span>{qty}</span>
+                    //       <button
+                    //         onClick={increaseQty}
+                    //         className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+                    //       >
+                    //         +
+                    //       </button>
                     //     </div>
                     //   </td>
-                    //   <td className="px-4 py-4">{item.price * item.qty}</td>
+                    //   <td className="px-4 py-4">${price * qty}</td>
                     //   <td className="px-4 py-4">
-                    //     <button onClick={removeCarts} className="text-red-500 hover:underline cursor-pointer">Remove </button>
+                    //     <button
+                    //       onClick={removeCarts}
+                    //       className="text-red-500 hover:underline cursor-pointer"
+                    //     >
+                    //       Remove
+                    //     </button>
                     //   </td>
                     // </tr>
-                    <CartRowData cartrowdata={item} key={index.id} />
+
+                    < CartRowData cartrowdata={item} key={index.id} />
                   ))
                 }
 
@@ -102,7 +118,7 @@ function CartRowData({ cartrowdata }) {
 
   let addcurrentQty = (e) => {
     // console.log( e.target.value)
-    setCurrentQty(e.target.value)
+    setCurrentQty(Number(e.target.value))
   }
 
   // cart ke row ko Remove karne ke liye
@@ -122,9 +138,8 @@ function CartRowData({ cartrowdata }) {
       return items
     })
     setCart(finalCart)
-    // console.log(finalCart,id)
-  }, [currentQty])
 
+  }, [currentQty])
 
 
   return (
@@ -145,6 +160,82 @@ function CartRowData({ cartrowdata }) {
       <td className="px-4 py-4">{price * qty}</td>
       <td className="px-4 py-4">
         <button onClick={removeCarts} className="text-red-500 hover:underline cursor-pointer">Remove </button>
+      </td>
+    </tr>
+  )
+}
+
+
+
+function CartRow({ }) {
+  let { id, image, name, price, qty } = cartrowdata
+  let { cart, setCart } = useContext(counterContext)
+
+
+  // quantity ko update ke saath saath cart mein bhi ise add karke dikhana hoga, cart kaunsa jo uper header mein cart() hai isme....
+
+  useEffect(() => {
+    let finalCart = cart.filter((items) => {
+      if (items.id == id) {
+        items['qty'] = currentQty
+      }
+      return items
+    })
+    setCart(finalCart)
+
+  }, [currentQty])
+
+
+  const increaseQty = () => {
+    finalCart(qty + 1);
+  };
+
+  const decreaseQty = () => {
+    if (qty > 1) {
+      finalCart(qty - 1);
+    }
+  };
+
+  const removeCarts = () => {
+    const finalRemoveCart = cart.filter((item) => item.id !== id);
+    setCart(finalRemoveCart);
+    toast.error("Item removed");
+  };
+
+
+
+  return (
+    <tr className="border-t">
+      <td className="px-4 py-4">
+        <img src={image} alt="Product" className="w-14 h-14 rounded object-cover" />
+      </td>
+      <td className="px-4 py-4">{name}</td>
+      <td className="px-4 py-4">${price}</td>
+      <td className="px-4 py-4">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={decreaseQty}
+            className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            -
+          </button>
+          <span>{qty}</span>
+          <button
+            onClick={increaseQty}
+            className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            +
+          </button>
+        </div>
+      </td>
+      <td className="px-4 py-4">${price * qty}</td>
+      <td className="px-4 py-4">
+        <button
+          onClick={removeCarts}
+          className="text-red-500 hover:underline cursor-pointer"
+        >
+          Remove
+        </button>
       </td>
     </tr>
   )

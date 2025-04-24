@@ -384,9 +384,7 @@ function ProductItem({ pdata }) {
             setCart(removeData)
             toast.error("Your Itmes is Deleted")
         }
-
     }
-
 
     return (
         <div className='overflow-y-scroll'>
