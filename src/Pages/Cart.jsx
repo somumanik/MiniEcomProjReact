@@ -1,64 +1,151 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Footer from '../Common/Footer'
+import { counterContext } from '../Common/MaiContext'
+import { toast, ToastContainer } from 'react-toastify'
 
 export default function Cart() {
+  let {cart} = useContext(counterContext)
+  // let { id } = cart
+
+  // let removeCarts = () => {
+  //   let finalRemoveCart = cart.filter((item) => item.id != id)
+  //   setCart(finalRemoveCart)
+  //   toast.error("Your Items is Removed")
+  // }
+
+
   return (
-
     <>
-      <div className='max-w-full'>
-        <div class="w-full my-10">
-          <div class="grid lg:grid-cols-[75%_auto] gap-4">
-            <div class="w-[95%] mx-auto" id="shppingCart">
-              <div class=" flex justify-between cartHeading">
-                <h4 class="font-semibold lg:text-2xl">Shopping Cart</h4>
-                <p class="font-semibold lg:text-2xl">0 Items</p>
-              </div>
-              <hr class="bg-[#ccc] h-px border-0 my-5" />
-              <div class=" flex items-center justify-between lg:gap-0 gap-2 productDetails">
-                <p class="text-gray-1000 lg:basis-[40%]  basis-[40%] uppercase lg:text-xs sm:text-xs text-[10px] font-semibold">Product Details</p>
-                <p class="text-gray-1000 lg:basis-[20%] uppercase lg:text-xs sm:text-xs text-[10px] font-semibold">Quantity</p>
-                <p class="text-gray-1000 lg:basis-[20%] uppercase lg:text-xs sm:text-xs text-[10px] font-semibold">Price</p>
-                <p class="text-gray-1000 lg:basis-[20%] uppercase lg:text-xs sm:text-xs text-[10px] font-semibold">total</p>
-              </div>
-              <div class="my-8 flex  gap-1 items-center">
-                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" class="text-xl text-indigo-600 font-bold" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                  <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400 100 256l144-144M120 256h292">
-                  </path>
-                </svg>
-                <p class="text-indigo-600 font-bold text-sm">Continue Shopping</p>
-              </div>
-            </div>
-            <div class="w-[95%] mx-auto" id="orderSummary">
-              <h4 class="font-semibold lg:text-2xl">Order Summary</h4>
-              <hr class="bg-[#ccc] h-px border-0 my-5" />
-              <div class=" flex w-[95%] mx-auto items-center justify-between" />
-              <p class=" font-semibold uppercase ">Items 0</p>
-              <p class=" font-semibold uppercase ">Rs.0</p>
 
-              <form action="">
-                <p class="py-5 px-2 uppercase font-semibold text-sm">Shipping</p>
-                <select name="" id="" class="w-[95%]  p-2">
-                  <option value="Standerd">Standerd Shipping-Rs.100</option>
-                </select>
-                <div class="mt-12 px-2" id="promocCode">
-                  <p class="uppercase font-semibold pb-2">Promo Code</p>
-                  <input class="w-full p-2 text-sm" placeholder="Enter Your Code" type="text" />
-                  <button class="text-white bg-red-500 py-2 px-5 my-8 cursor-pointer text-sm">Apply</button>
-                  <hr class="bg-[#ccc] h-px border-0" />
-                  <div class="flex w-[95%] mx-auto justify-between my-5">
-                    <p class="uppercase font-semibold text-sm">Total cost</p>
-                    <p class="uppercase font-semibold text-sm">rs.0</p>
-                  </div>
-                  <button class="text-white w-[95%] block mx-auto uppercase bg-indigo-500 p-2">checkout</button>
-                </div>
-              </form>
-            </div>
+      <div className="max-w-full mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6">Your Shopping Cart</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-[70%_30%] gap-6">
+
+          <div className="bg-white border border-gray-200 shadow rounded-lg overflow-x-auto">
+            <table className="min-w-full text-sm text-left">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-3">Image</th>
+                  <th className="px-4 py-3">Product</th>
+                  <th className="px-4 py-3">Price</th>
+                  <th className="px-4 py-3">Quantity</th>
+                  <th className="px-4 py-3">Total</th>
+                  <th className="px-4 py-3">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {
+                  cart.map((item, index) => (
+                    // <tr className="border-t">
+                    //   <td className="px-4 py-4">
+                    //     <img src={item.image} alt="Product" className="w-14 h-14 rounded object-cover" />
+                    //   </td>
+                    //   <td className="px-4 py-4">{item.name}</td>
+                    //   <td className="px-4 py-4">{item.price}</td>
+                    //   <td className="px-4 py-4">
+                    //     <div className="flex items-center gap-2">
+                    //       <button className="w-7 h-7 bg-gray-200 rounded cursor-pointer">-</button>
+                    //       <span>{item.qty}</span>
+                    //       <button className="w-7 h-7 bg-gray-200 rounded cursor-pointer">+</button>
+                    //     </div>
+                    //   </td>
+                    //   <td className="px-4 py-4">{item.price * item.qty}</td>
+                    //   <td className="px-4 py-4">
+                    //     <button onClick={removeCarts} className="text-red-500 hover:underline cursor-pointer">Remove </button>
+                    //   </td>
+                    // </tr>
+                    <CartRowData cartrowdata={item} key={index.id} />
+                  ))
+                }
+
+              </tbody>
+            </table>
           </div>
+
+
+          <div className="bg-white border border-gray-200 shadow rounded-lg p-6 h-fit">
+            <h3 className="text-xl font-semibold mb-4">Summary</h3>
+            <div className="flex justify-between mb-2">
+              <span>Subtotal</span>
+              <span>$100</span>
+            </div>
+            <div className="flex justify-between mb-2">
+              <span>Shipping</span>
+              <span>$10</span>
+            </div>
+            <hr className="my-3" />
+            <div className="flex justify-between text-lg font-bold">
+              <span>Total</span>
+              <span>$110</span>
+            </div>
+            <button className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+              Proceed to Checkout
+            </button>
+          </div>
+          <ToastContainer />
         </div>
       </div>
 
-      <Footer/>
-    </>
 
+      <Footer />
+    </>
+  )
+}
+
+function CartRowData({ cartrowdata }) {
+  let { id, image, name, price, qty } = cartrowdata
+  let { cart, setCart } = useContext(counterContext)
+
+  // Quantity ko Update karne ke liye Code
+  let [currentQty, setCurrentQty] = useState(qty)
+
+  let addcurrentQty = (e) => {
+    // console.log( e.target.value)
+    setCurrentQty(e.target.value)
+  }
+
+  // cart ke row ko Remove karne ke liye
+  let removeCarts = () => {
+    let finalRemoveCart = cart.filter((item) => item.id != id)
+    setCart(finalRemoveCart)
+    toast.error("Your Items is Removed")
+  }
+
+  // quantity ko update ke saath saath cart mein bhi ise add karke dikhana hoga, cart kaunsa jo uper header mein cart() hai isme....
+
+  useEffect(() => {
+    let finalCart = cart.filter((items) => {
+      if (items.id == id) {
+        items['qty'] = currentQty
+      }
+      return items
+    })
+    setCart(finalCart)
+    // console.log(finalCart,id)
+  }, [currentQty])
+
+
+
+  return (
+    <tr className="border-t">
+      <td className="px-4 py-4">
+        <img src={image} alt="Product" className="w-14 h-14 rounded object-cover" />
+      </td>
+      <td className="px-4 py-4">{name}</td>
+      <td className="px-4 py-4">{price}</td>
+      <td className="px-4 py-4">
+        {/* <div className="flex s-center gap-2 w-[10px]">
+         <button className="w-7 h-7 bg-gray-200 rounded cursor-pointer">-</button>
+            <span>{currentQty}</span>
+          <button onClick={addcurrentQty} className="w-7 h-7 bg-gray-200 rounded cursor-pointer">+</button> 
+        </div> */}
+        <input type="number" min={1} max={10} value={currentQty} onChange={addcurrentQty} className='outline-1 rounded-xm w-[40px]' />
+      </td>
+      <td className="px-4 py-4">{price * qty}</td>
+      <td className="px-4 py-4">
+        <button onClick={removeCarts} className="text-red-500 hover:underline cursor-pointer">Remove </button>
+      </td>
+    </tr>
   )
 }

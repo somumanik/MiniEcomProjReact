@@ -384,7 +384,7 @@ function ProductItem({ pdata }) {
         if (confirm("Are Your Sure")) {
             let removeData = cart.filter((items) => items.id != id)
             setCart(removeData)
-            toast.dark("Your Itmes is Deleted")
+            toast.error("Your Itmes is Deleted")
         }
 
     }

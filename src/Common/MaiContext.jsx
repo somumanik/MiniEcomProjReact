@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
 
+
 export let counterContext = createContext()
 
 export default function MaiContext({ children }) {
@@ -7,7 +8,7 @@ export default function MaiContext({ children }) {
 
   // lets make state for testing
   // let [count, setCount] = useState(1)
-  let [cart, setCart] = useState([])
+  let [cart, setCart] = useState(JSON.parse(localStorage.getItem("CARTS")) ?? [])
 
   let obj = {
     // count, setCount,
@@ -16,6 +17,7 @@ export default function MaiContext({ children }) {
 
   useEffect(() => {
     // console.log(cart)
+    localStorage.setItem("CARTS", JSON.stringify(cart))
   }, [cart])
 
 
