@@ -8,7 +8,7 @@ export default function MaiContext({ children }) {
 
   // lets make state for testing
   // let [count, setCount] = useState(1)
-  let [cart, setCart] = useState(JSON.parse(localStorage.getItem("CARTS")) ?? [])
+  let [cart, setCart] = useState(JSON.parse(localStorage.getItem("CARTSS")) ?? [])
 
   let obj = {
     // count, setCount,
@@ -17,7 +17,7 @@ export default function MaiContext({ children }) {
 
   useEffect(() => {
     // console.log(cart)
-    localStorage.setItem("CARTS", JSON.stringify(cart))
+    localStorage.setItem("CARTSS", JSON.stringify(cart))
   }, [cart])
 
 

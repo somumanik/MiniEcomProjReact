@@ -164,7 +164,7 @@ export default function Product() {
                                         </div>
                                     </>
                                     :
-                                    category.map((items, index) => <li><input type="checkbox" value={items.slug} onChange={getmyCategory} /> {items.name} </li>)
+                                    category &&  category.map((items, index) => <li><input type="checkbox" value={items.slug} onChange={getmyCategory} /> {items.name} </li>)
                             }
 
                         </ul>

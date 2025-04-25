@@ -37,41 +37,10 @@ export default function Cart() {
 
                 {
                   cart.map((item, index) => (
-                    // <tr className="border-t">
-                    //   <td className="px-4 py-4">
-                    //     <img src={image} alt="Product" className="w-14 h-14 rounded object-cover" />
-                    //   </td>
-                    //   <td className="px-4 py-4">{name}</td>
-                    //   <td className="px-4 py-4">${price}</td>
-                    //   <td className="px-4 py-4">
-                    //     <div className="flex items-center gap-2">
-                    //       <button
-                    //         onClick={decreaseQty}
-                    //         className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
-                    //       >
-                    //         -
-                    //       </button>
-                    //       <span>{qty}</span>
-                    //       <button
-                    //         onClick={increaseQty}
-                    //         className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
-                    //       >
-                    //         +
-                    //       </button>
-                    //     </div>
-                    //   </td>
-                    //   <td className="px-4 py-4">${price * qty}</td>
-                    //   <td className="px-4 py-4">
-                    //     <button
-                    //       onClick={removeCarts}
-                    //       className="text-red-500 hover:underline cursor-pointer"
-                    //     >
-                    //       Remove
-                    //     </button>
-                    //   </td>
-                    // </tr>
 
-                    < CartRowData cartrowdata={item} key={index.id} />
+                    // < CartRowData cartrowdata={item} key={index.id} />
+
+                    < CartRow cartrowdata={item} key={index.id} />
                   ))
                 }
 
@@ -167,10 +136,15 @@ function CartRowData({ cartrowdata }) {
 
 
 
-function CartRow({ }) {
+// Plus Minus Table Function
+
+function CartRow({ cartrowdata }) {
   let { id, image, name, price, qty } = cartrowdata
   let { cart, setCart } = useContext(counterContext)
 
+
+  // Quantity ko Update karne ke liye Code
+  let [currentQty, setCurrentQty] = useState(qty)
 
   // quantity ko update ke saath saath cart mein bhi ise add karke dikhana hoga, cart kaunsa jo uper header mein cart() hai isme....
 
@@ -187,12 +161,16 @@ function CartRow({ }) {
 
 
   const increaseQty = () => {
-    finalCart(qty + 1);
+    if (currentQty < 10) {
+      setCurrentQty((prev )=> prev + 1);
+    }
   };
 
   const decreaseQty = () => {
     if (qty > 1) {
-      finalCart(qty - 1);
+      if (currentQty > 1) {
+        setCurrentQty((prev) => prev - 1);
+      }
     }
   };
 
@@ -215,14 +193,14 @@ function CartRow({ }) {
         <div className="flex items-center gap-2">
           <button
             onClick={decreaseQty}
-            className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+            className="w-7 h-7 bg-gray-200 rounded cursor-pointer hover:bg-gray-300"
           >
             -
           </button>
           <span>{qty}</span>
           <button
             onClick={increaseQty}
-            className="w-7 h-7 bg-gray-200 rounded hover:bg-gray-300"
+            className="w-7 h-7 bg-gray-200 rounded cursor-pointer hover:bg-gray-300"
           >
             +
           </button>
