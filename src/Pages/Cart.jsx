@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify'
 
 export default function Cart() {
   let { cart } = useContext(counterContext)
+
   // let { id } = cart
 
   // let removeCarts = () => {
@@ -13,6 +14,10 @@ export default function Cart() {
   //   toast.error("Your Items is Removed")
   // }
 
+  // Subtotal calculation
+  const subtotal = cart.reduce((acc, item) => {
+    return acc + (item.price * item.qty);
+  }, 0);
 
   return (
     <>
@@ -53,16 +58,16 @@ export default function Cart() {
             <h3 className="text-xl font-semibold mb-4">Summary</h3>
             <div className="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span>$100</span>
+              <span>₹ {subtotal}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span>Shipping</span>
-              <span>$10</span>
+              <span>₹ 10</span>
             </div>
             <hr className="my-3" />
             <div className="flex justify-between text-lg font-bold">
               <span>Total</span>
-              <span>$110</span>
+              <span>₹ {(subtotal + 10)}</span>
             </div>
             <button className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
               Proceed to Checkout
@@ -162,7 +167,7 @@ function CartRow({ cartrowdata }) {
 
   const increaseQty = () => {
     if (currentQty < 10) {
-      setCurrentQty((prev )=> prev + 1);
+      setCurrentQty((prev) => prev + 1);
     }
   };
 
@@ -206,7 +211,7 @@ function CartRow({ cartrowdata }) {
           </button>
         </div>
       </td>
-      <td className="px-4 py-4">${price * qty}</td>
+      <td className="px-4 py-4"> ₹{price * qty}</td>
       <td className="px-4 py-4">
         <button
           onClick={removeCarts}
