@@ -14,10 +14,31 @@ export default function Cart() {
   //   toast.error("Your Items is Removed")
   // }
 
+
+  // Subtotal calculation // 
+  // Formula of subtotal, yeh neeche jo formula hai isko hum hamesha ek vairable mein store karayenge...
+  // array.reduce((accumulator, currentItem) => {
+  //   return updatedAccumulator;
+  // }, initialValue);
+
+  
   // Subtotal calculation
   const subtotal = cart.reduce((acc, item) => {
     return acc + (item.price * item.qty);
   }, 0);
+
+  // STEP BY STEP USE
+
+  // 1- acc → total sum jo ab tak mila
+
+  // 2- item → cart ka current product
+
+  // 3- item.price * item.qty → us item ka total
+
+  // 4- Har item ka total acc mein add hota jaata hai
+
+  // 5- 0 → initial total (starting from zero)
+
 
   return (
     <>

@@ -67,31 +67,61 @@ export default function Product() {
 
     let getmyCategory = (event) => {
         if (event.target.checked) {
+
+
             if (!categoryfilter.includes(event.target.value)) {
-                setCategoryfilter([...categoryfilter, event.target.value])
+                let updatedCategoryFilters = [...categoryfilter, event.target.value]
+                setCategoryfilter(updatedCategoryFilters)
+                localStorage.setItem('category', JSON.stringify(updatedCategoryFilters)); // store in localStorage
             }
         }
         else {
             let finalData = categoryfilter.filter((v) => v != event.target.value)
             setCategoryfilter(finalData)
+            localStorage.setItem('category', JSON.stringify(finalData)); // store in localStorage
         }
+
+        // Ye lines mei if block ke andar define kiya hoo aur updatedCategoryFilters ke baahar likh raha hoo — 
+        // to agar checkbox uncheck hua (i.e. else block chala), 
+        // to updatedCategoryFilters defined hi nahi hota hai isliye ise mujhe if else mein har ek block mein dalna hoga !
+        // setCategoryfilter(updatedCategoryFilters);
+        // localStorage.setItem('category', JSON.stringify(updatedCategoryFilters)); // store in localStorage
+
+
+
         // if(!categoryfilter.includes(event.target.value))
         // {
 
         // }
         // console.log(event.target.value)
-    }
+    };
+
+
     let getmyBrand = (event) => {
         if (event.target.checked) {
-            if (!brandfilter.includes(event.target.value)) {
-                setBrandfilter([...brandfilter, event.target.value])
-            }
+            // yaha pr jo cheked ki condition lagayi hai wo yaha se hata kr aap reactjs mein input ke anadar sidhe lagaye tabhi apka checkbox mein
+            // checked dikhega jab page refresh hota hai, yeh problem tab aati hai jab aap kahi pr local storage lagate hai, agar kisi bhi ek page mein 
+            // local storage laga hoga to checkbox mein dikkat dega filter karne ke baad. ilsiye yaha pr maine brand se condition hata kr
+            // iske input mein condtion de diya hai.... same yahi aap category mein bhi kar skte hai, yaa phir aap dono mein likh skte ho waha if 
+            // condition lagakr bhi aur input ke checkbox mein bhi...
+
+            let updatedBrandFilters = [...brandfilter, event.target.value]
+            setBrandfilter(updatedBrandFilters)
+            localStorage.setItem('brand', JSON.stringify(updatedBrandFilters)); // store in localStorage
+
         }
         else {
             let finalData = brandfilter.filter((v) => v != event.target.value)
             setBrandfilter(finalData)
+            localStorage.setItem('brand', JSON.stringify(finalData)); // store in localStorage
         }
-    
+
+        // Ye lines mei if block ke andar define kiya hoo aur updatedCategoryFilters ke baahar likh raha hoo — 
+        // to agar checkbox uncheck hua (i.e. else block chala), 
+        // to updatedCategoryFilters defined hi nahi hota hai isliye ise mujhe if else mein har ek block mein dalna hoga !
+        //   setBrandfilter(updatedBrandFilters);
+        //   localStorage.setItem('brand', JSON.stringify(updatedBrandFilters)); // store in localStorage
+
     }
 
 
@@ -134,6 +164,13 @@ export default function Product() {
     useEffect(() => {
         getcategory()
         getbrand()
+
+        // LocalStorage se filter le kar state set karna hai
+        const storedCategories = JSON.parse(localStorage.getItem('category')) || [];
+        const storedBrands = JSON.parse(localStorage.getItem('brand')) || [];
+
+        setCategoryfilter(storedCategories);
+        setBrandfilter(storedBrands);
     }, [])
 
     useEffect(() => {
@@ -164,7 +201,7 @@ export default function Product() {
                                         </div>
                                     </>
                                     :
-                                    category &&  category.map((items, index) => <li><input type="checkbox" value={items.slug} onChange={getmyCategory} /> {items.name} </li>)
+                                    category.map((items, index) => <li><input type="checkbox" value={items.slug} checked={categoryfilter.includes(items.slug)} onChange={getmyCategory} /> {items.name} </li>)
                             }
 
                         </ul>
@@ -188,7 +225,7 @@ export default function Product() {
                                         </div>
                                     </>
                                     :
-                                    brand.map((items, index) => <li><input type="checkbox" value={items.slug} onChange={getmyBrand} /> {items.name} </li>)
+                                    brand.map((items, index) => <li><input type="checkbox" value={items.slug} checked={brandfilter.includes(items.slug)} onChange={getmyBrand} /> {items.name} </li>)
                             }
 
                         </ul>
@@ -370,7 +407,7 @@ function ProductItem({ pdata }) {
 
     }
 
- 
+
     // console.log(cart, id)
     let checkProductinCart = cart.filter((items) => items.id == id)
     // console.log(checkProductinCart, id)
@@ -382,9 +419,11 @@ function ProductItem({ pdata }) {
         if (confirm("Are Your Sure Deletion")) {
             let removeData = cart.filter((items) => items.id != id)
             setCart(removeData)
-            toast.error("Your Itmes is Deleted")
+            toast.error("your itmes is removed")
         }
+
     }
+
 
     return (
         <div className='overflow-y-scroll'>
